@@ -1,0 +1,1 @@
+# pattern-searching-using-a-trie-of-all-suffixes
