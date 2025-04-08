@@ -1,4 +1,4 @@
-# 📚 Auto-uzupełnianie tytułów książek i autorów (Trie + Tkinter)
+# 📚 System auto-uzupełniania tytułów książek i autorów z wykorzystaniem drzewa Trie
 
 To prosta aplikacja graficzna napisana w Pythonie z użyciem biblioteki Tkinter, która umożliwia wyszukiwanie książek po tytule lub autorze. Do realizacji wyszukiwania wykorzystano strukturę danych Trie (drzewo prefiksowe), co pozwala na szybkie dopasowywanie wpisywanych fragmentów.
 
