@@ -31,7 +31,7 @@ Plik może zawierać wielu autorów rozdzielonych przecinkami. Program poprawnie
 1. Umieść plik danych (np. `GoodReads_100k_books.txt`) w tym samym folderze co skrypt `prefix_trie.py`.
 2. Uruchom program:
 ```bash
-python app.py
+python prefix_tree.py
 ```
 
 ---
