@@ -32,20 +32,23 @@ Plik może zawierać wielu autorów rozdzielonych przecinkami. Program poprawnie
 2. Uruchom program:
 ```bash
 python app.py
+```
 
-⚙️ Wymagania
+---
+
+## ⚙️ Wymagania
 Python 3.x
 
 Wbudowane biblioteki: tkinter, collections, csv
 
 Nie są wymagane żadne zewnętrzne zależności.
 
-🧠 Wykorzystane technologie
+## 🧠 Wykorzystane technologie
 Trie (drzewo prefiksowe) – do szybkiego dopasowywania wpisywanych fraz.
 
 Tkinter – graficzny interfejs użytkownika.
 
 CSV z kodowaniem Windows-1252 – poprawna obsługa znaków specjalnych, np. ©.
 
-✍️ Autorzy
+## ✍️ Autorzy
 Bartłomiej Bieda, Bartosz Śnieg
