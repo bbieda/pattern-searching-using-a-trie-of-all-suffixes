@@ -1,4 +1,46 @@
-# 📚 System auto-uzupełniania tytułów książek i autorów z wykorzystaniem drzewa Trie
+# 🇬🇧📚 Auto-complete System for Book Titles and Authors Using Trie Tree
+
+This is a simple graphical application written in Python using the Tkinter library. It allows users to search for books by title or author. The search feature is powered by the Trie (prefix tree) data structure, which enables fast matching of typed fragments.
+
+The dataset used in this application comes from Kaggle: https://www.kaggle.com/datasets/mdhamani/goodreads-books-100k
+
+## 🔍 Features
+
+- Auto-completion of typed prefixes.
+- Two search modes – by title or by author.
+- A button to toggle between search modes.
+- Real-time display of results as the user types.
+- Proper handling of authors listed in quotes, even if they contain commas in their names.
+
+## 🗂 Input Data Format
+
+The program reads data from a `.txt` file, where each line has the format:
+author, title
+
+The file may include multiple authors separated by commas. The program handles this correctly by using a CSV parser with the proper encoding (`Windows-1252`).
+
+## 🚀 Running the Application
+
+1. Place the data file (e.g. `GoodReads_100k_books.txt`) in the same folder as the script `prefix_trie.py`.
+2. Run the application:
+   python prefix_trie.py
+
+## ⚙️ Requirements
+
+- Python 3.x  
+- Built-in libraries: `tkinter`, `collections`, `csv`
+
+No external dependencies required.
+
+## 🧠 Technologies Used
+
+- Trie (prefix tree) – for efficient prefix matching.
+- Tkinter – for the graphical user interface.
+- CSV with Windows-1252 encoding – to properly handle special characters like ©.
+
+---
+
+# 🇵🇱📚 System auto-uzupełniania tytułów książek i autorów z wykorzystaniem drzewa Trie
 
 To prosta aplikacja graficzna napisana w Pythonie z użyciem biblioteki Tkinter, która umożliwia wyszukiwanie książek po tytule lub autorze. Do realizacji wyszukiwania wykorzystano strukturę danych Trie (drzewo prefiksowe), co pozwala na szybkie dopasowywanie wpisywanych fragmentów.
 
