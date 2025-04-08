@@ -1,4 +1,4 @@
-# 📚 Auto-complete System for Book Titles and Authors Using Trie Tree
+# 📚 Auto-complete System for Book Titles and Authors Using Trie Data Structure
 
 This is a simple graphical application written in Python using the Tkinter library. It allows users to search for books by title or author. The search feature is powered by the Trie (prefix tree) data structure, which enables fast matching of typed fragments.
 
