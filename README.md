@@ -18,7 +18,8 @@ Dane wykorzystane w aplikacji pochodzą z serwisu Kaggle: https://www.kaggle.com
 
 ## 🗂 Format danych wejściowych
 
-Program czyta dane z pliku `.txt`, w którym każda linia ma format: autor,tytuł książki
+Program czyta dane z pliku `.txt`, w którym każda linia ma format:
+autor, tytuł
 
 
 Plik może zawierać wielu autorów rozdzielonych przecinkami. Program poprawnie to obsługuje dzięki użyciu parsera CSV z odpowiednim kodowaniem (`Windows-1252`).
