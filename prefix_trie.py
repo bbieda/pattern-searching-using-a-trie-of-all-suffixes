@@ -1,146 +1,107 @@
 import tkinter as tk
 from collections import defaultdict
+import csv
 
-# TrieNode definition
 class TrieNode:
     def __init__(self):
         self.children = {}
         self.is_end_of_word = False
-        self.prefix_count = 0
+        self.words = []
 
 class Trie:
     def __init__(self):
         self.root = TrieNode()
 
-    # Insert a word into the Trie
-    def insert(self, word):
+    def insert(self, key, value):
         node = self.root
-        for char in word:
+        for char in key:
             if char not in node.children:
                 node.children[char] = TrieNode()
             node = node.children[char]
-            node.prefix_count += 1
         node.is_end_of_word = True
+        node.words.append(value)
 
-    # Search for words that start with a given prefix
     def search_prefix(self, prefix):
         node = self.root
         for char in prefix:
             if char not in node.children:
                 return []
             node = node.children[char]
-        return self._collect_all_words(node, prefix)
+        return self._collect_words(node)
 
-    # Collect all words that start from the given node
-    def _collect_all_words(self, node, prefix):
-        words = []
+    def _collect_words(self, node):
+        results = []
         if node.is_end_of_word:
-            words.append(prefix)
-        for char, next_node in node.children.items():
-            words.extend(self._collect_all_words(next_node, prefix + char))
-        return words
+            results.extend(node.words)
+        for child in node.children.values():
+            results.extend(self._collect_words(child))
+        return results
 
-# Graph definition to store relationships and weights between titles
-class TitleGraph:
-    def __init__(self):
-        # Dictionary to hold connections and weights
-        self.graph = defaultdict(dict)
-
-    # Add a connection between two titles with a given weight
-    def add_connection(self, title1, title2, weight=1):
-        self.graph[title1][title2] = weight
-        self.graph[title2][title1] = weight
-
-    # Get related titles sorted by the weight of their connections
-    def get_related_titles(self, title):
-        if title not in self.graph:
-            return []
-        # Sort the related titles by their weight (in descending order)
-        return sorted(self.graph[title].items(), key=lambda x: x[1], reverse=True)
-
-# Simple GUI using Tkinter
 class AutoCompleteApp:
-    def __init__(self, root, trie, graph):
+    def __init__(self, root, title_trie, author_trie):
         self.root = root
-        self.trie = trie
-        self.graph = graph
-        self.root.title("Auto-Complete and Recommendation System")
+        self.title_trie = title_trie
+        self.author_trie = author_trie
 
-        # Creating a label and entry for user input
-        self.label = tk.Label(root, text="Enter text:")
+        self.root.title("Auto-Complete by Title and Author")
+
+        self.label = tk.Label(root, text="Enter title or author:")
         self.label.pack()
 
         self.entry = tk.Entry(root, width=50)
         self.entry.pack()
         self.entry.bind("<KeyRelease>", self.on_key_release)
 
-        # Creating a listbox to show suggestions
-        self.listbox = tk.Listbox(root, width=50, height=10)
+        self.listbox = tk.Listbox(root, width=60, height=20)
         self.listbox.pack()
-        self.listbox.bind("<<ListboxSelect>>", self.on_select)
 
-        # Creating a label and listbox to show recommendations
-        self.rec_label = tk.Label(root, text="Recommendations:")
-        self.rec_label.pack()
-        self.recommendations = tk.Listbox(root, width=50, height=5)
-        self.recommendations.pack()
-
-    # Function called on key release to update suggestions
     def on_key_release(self, event):
-        # Clear current suggestions
         self.listbox.delete(0, tk.END)
-        self.recommendations.delete(0, tk.END)  # Clear previous recommendations
-
-        # Get the current text from the entry
-        user_input = self.entry.get()
-
-        if user_input:
-            # Get suggestions from the Trie
-            suggestions = self.trie.search_prefix(user_input)
-
-            # Add suggestions to the listbox
-            for suggestion in suggestions:
-                self.listbox.insert(tk.END, suggestion)
-
-    # Function called when a title is selected
-    def on_select(self, event):
-        # Get the selected title from the listbox
-        try:
-            selected_index = self.listbox.curselection()[0]
-            selected_title = self.listbox.get(selected_index)
-        except IndexError:
+        user_input = self.entry.get().strip().lower()
+        if not user_input:
             return
 
-        # Clear previous recommendations
-        self.recommendations.delete(0, tk.END)
+        # Search by title
+        title_matches = self.title_trie.search_prefix(user_input)
+        for title, author in sorted(set(title_matches))[:50]:
+            self.listbox.insert(tk.END, f"{title}, {author}")
 
-        # Get the related titles from the graph based on weights
-        related_titles = self.graph.get_related_titles(selected_title)
+        # Search by author
+        author_matches = self.author_trie.search_prefix(user_input)
+        for author, title in sorted(set(author_matches))[:50]:
+            self.listbox.insert(tk.END, f"{title}, {author}")
 
-        # Add related titles to the recommendations listbox
-        for title, weight in related_titles:
-            self.recommendations.insert(tk.END, f"{title} (Weight: {weight})")
+# Tries
+title_trie = Trie()
+author_trie = Trie()
 
-# Sample data: tytuły z powiązaniami i wagami
-queries = [
-    "Harry Potter", "Haruki Murakami", "Harper Lee", "Hobbit", "Narnia", "Władca Pierścieni"
-]
+# Load data
+file = "GoodReads_100k_books_test_1.txt"
 
-# Create the Trie and insert sample queries
-trie = Trie()
-for query in queries:
-    trie.insert(query)
+# Zmienic w zaleznosci od kodowania pliku
+# with open(file, newline='', encoding='utf-8-sig') as f:
+# with open(file, newline='', encoding='utf-8') as f:
+# with open(file, newline='', encoding='windows-1252') as f:
+# with open(file, newline='', encoding='iso-8859-1') as f:
+with open(file, newline='', encoding='iso-8859-1') as f:
+    reader = csv.reader(f)
+    for row in reader:
+        if len(row) < 2:
+            continue
+        authors_raw, title = row[0].strip(), row[1].strip()
+        title_lower = title.lower()
 
-# Create the graph and add connections (title1, title2, weight)
-graph = TitleGraph()
-graph.add_connection("Harry Potter", "Hobbit", 5)
-graph.add_connection("Harry Potter", "Władca Pierścieni", 3)
-graph.add_connection("Hobbit", "Władca Pierścieni", 4)
-graph.add_connection("Haruki Murakami", "Kafka on the Shore", 7)
-graph.add_connection("Harper Lee", "To Kill a Mockingbird", 6)
-graph.add_connection("Władca Pierścieni", "Narnia", 2)
+        # Rozdziel wielu autorów
+        authors = [a.strip() for a in authors_raw.split(",") if a.strip()]
+        for author in authors:
+            author_lower = author.lower()
 
-# Create the application window and run the app
-root = tk.Tk()
-app = AutoCompleteApp(root, trie, graph)
-root.mainloop()
+            # Wstaw dane do obu Trie
+            title_trie.insert(title_lower, (title, author))
+            author_trie.insert(author_lower, (author, title))
+
+# Run app
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = AutoCompleteApp(root, title_trie, author_trie)
+    root.mainloop()
