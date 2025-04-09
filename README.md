@@ -8,7 +8,6 @@ The dataset used in this application comes from Kaggle: https://www.kaggle.com/d
 
 - Auto-completion of typed prefixes.
 - Two search modes – by title or by author.
-- A button to toggle between search modes.
 - Real-time display of results as the user types.
 - Proper handling of authors listed in quotes, even if they contain commas in their names.
 
@@ -54,7 +53,6 @@ Dane wykorzystane w aplikacji pochodzą z serwisu Kaggle: https://www.kaggle.com
 
 - Automatyczne uzupełnianie wpisywanych prefiksów.
 - Obsługa dwóch trybów wyszukiwania – po tytule lub po autorze.
-- Przycisk do przełączania trybu wyszukiwania.
 - Wyświetlanie wyników w czasie rzeczywistym podczas wpisywania.
 - Obsługa autorów zapisanych w cudzysłowie, nawet jeśli zawierają przecinki w imieniu i nazwisku.
 
