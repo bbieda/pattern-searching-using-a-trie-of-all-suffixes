@@ -11,6 +11,15 @@ Zaimplementuj strukturę Trie, która pozwala na wstawianie słów oraz znalezie
 
 Następnie napisz funkcję `longestCommonPrefix(strs: List[str])`, która korzysta z powyższej klasy, aby znaleźć najdłuższy wspólny prefiks w liście słów.
 
+**Przykład:**
+
+```python
+words = ["flower", "flow", "flight"]
+print(longestCommonPrefix(words))  # "fl"
+
+words = ["dog", "racecar", "car"]
+print(longestCommonPrefix(words))  # ""
+```
 ---
 
 ## Zadanie 2: Czy dane słowo jest prefiksem innego słowa w Trie?
